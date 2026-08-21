@@ -177,46 +177,5 @@ if (waFloat) {
    8. COUNTER ANIMATION — triggers when pricing visible
       (Adds a subtle number count-up to prices)
    =================================================== */
-function animateCounter(el, target, duration) {
-  const start     = performance.now();
-  const prefix    = el.dataset.prefix || '';
-  const suffix    = el.dataset.suffix || '';
-
-  function update(now) {
-    const elapsed  = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    // ease-out quad
-    const eased    = 1 - (1 - progress) * (1 - progress);
-    const value    = Math.round(eased * target);
-    el.textContent = prefix + value.toLocaleString('en-IN') + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  }
-
-  requestAnimationFrame(update);
-}
-
-const priceEls = document.querySelectorAll('.pricing-price');
-const priceValues = [4999, 11999, 24999];
-
-const priceObserver = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      const el  = entry.target;
-      const val = priceValues[i] ?? 0;
-      animateCounter(el, val, 900);
-      // Restore the "+" for the last card after animation
-      if (i === 2) {
-        setTimeout(() => {
-          el.innerHTML = '₹24,999<span class="pricing-plus">+</span>';
-        }, 920);
-      }
-      priceObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-
-priceEls.forEach(el => {
-  /* Store original text and replace with ₹ prefix for counter */
-  el.dataset.prefix = '₹';
-  priceObserver.observe(el);
-});
+// Pricing counter animation removed to prevent display issues
+// Prices now show correctly immediately without animation glitches
